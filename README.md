@@ -16,3 +16,11 @@ Par exemple: Ce repository est consacré à la partie...
 
 ## Conclusion
 [Points à améliorer, points en suspens, améliorations futures, ...]
+
+## Note dev
+
+Payload:
+https://docs.google.com/spreadsheets/d/1PmNmLVsm3uHxBaLA38uTDL-t3WrtRHb4Pu9JmiWj3Kg/edit?usp=sharing
+
+Datasheet:
+![lol](img/arduino_headers.png)
