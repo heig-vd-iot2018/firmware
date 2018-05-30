@@ -21,6 +21,22 @@ Carte :
 
 http://www.st.com/en/evaluation-tools/nucleo-f401re.html
 
+La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette carte dispose 
+
+- de deux type de ressources d'extension :
+  -  une connectivité Arduino Uno révision 3
+  - un 
+- Alimentation électrique de carte flexible 
+- Trois LED                 
+- Deux boutons-poussoirs : UTILISATEUR et REMISE À ZÉRO
+- Capacité de ré-énumération USB : trois différentes interfaces prises en charge sur USB     
+  - Port Com virtuel
+  - Stockage de masse
+  - Port de débogage            
+- Et toute une série de périphériques et de composants.
+
+Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environment click) via la connectivitée Arduino Uno (Arduino Uno click SHIELD)  pour transférer les données du capteur vers l'application web.
+
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
 
