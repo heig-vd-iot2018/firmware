@@ -25,18 +25,18 @@ Connectique :
 
 https://www.mikroe.com/arduino-uno-click-shield
 
-Arduino Uno est une extension pour Arduino Uno. Il contient deux micro bus permettant de connecter à arduino plus de 75 click board différentes. Il permet d'ajouter des fonctionnalités comme GSM, Wifi, Zigbee, Bluethooth... 
+Arduino Uno est une extension pour Arduino Uno. Il contient deux micro bus permettant de connecter à arduino plus de 75 click board différentes. Il permet d'ajouter des fonctionnalités comme GSM, Wifi, Zigbee, Bluethooth...
 
 Carte :
 
 http://www.st.com/en/evaluation-tools/nucleo-f401re.html
 
-La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette carte dispose 
+La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette carte dispose
 
 - de deux type de ressources d'extension :
   -  une connectivité Arduino Uno révision 3
-  - un 
-- Alimentation électrique de carte flexible 
+  - un
+- Alimentation électrique de carte flexible
 - Trois LED                 
 - Deux boutons-poussoirs : UTILISATEUR et REMISE À ZÉRO
 - Capacité de ré-énumération USB : trois différentes interfaces prises en charge sur USB     
@@ -49,6 +49,15 @@ Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environm
 
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
+
+### Comunication du changement de fréquence d'échantillonnage
+Pour changer la fréquences d'échantillonnage d'un noeuds, il faut lui envoyer un payload en JSON, converti en Hexadécimal.
+
+Le JSON se présente sous le format suivant : `{"newInterval": value}`
+
+La `value` est en millisecondes.
+
+La fréquence d'échantillonnage de base reste à définir.
 
 ## Déploiement
 [Instruction de déploiement/utilisation]

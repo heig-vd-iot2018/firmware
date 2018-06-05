@@ -9,7 +9,6 @@ var i2c = null;
 
 var msgRX = "";
 
-
 function hexToString (hex) {
     var string = '';
     for (var i = 0; i < hex.length; i += 2) {
@@ -21,7 +20,6 @@ function hexToString (hex) {
 
 function UARTprocess(data) {
    msgRX += data;
-   var intervalID;
    // Once the message contains the \r\n chars it means the response is done.
    // We can now compare the response to handle it correctly.
    if (msgRX.indexOf("\r\n") != -1) {
@@ -29,7 +27,7 @@ function UARTprocess(data) {
       // If we get the response "accepted" after a join, we can set the 
       // interval to send the datas periodically.
       if (msgRX.indexOf("accepted") != -1) {
-        intervalID = setInterval(function(){loraSendMsg("68656c6c6f", 1, "cnf");}, 5000);
+        setInterval(function(){loraSendMsg("68656c6c6f", 1, "cnf");}, 5000);
       }
      else if(msgRX.indexOf("mac_rx") != -1){
        console.log("message recived");
@@ -39,12 +37,13 @@ function UARTprocess(data) {
        console.log(msg);
        var jsonParsed = JSON.parse(msg);
        var intervalTime = jsonParsed.newInterval;
-       console.log(time);
+       console.log(intervalTime);
        
        //{ "newInterval" : 5 }
        
-       clearInterval(intervalID);
-       intervalID = setInterval(function(){loraSendMsg("68656c6c6f", 1, "cnf");}, intervalTime);
+       clearInterval();
+       setInterval(function(){loraSendMsg("68656c6c6f", 1, "cnf");}, intervalTime);
+       console.log("interval Time changed");
      }
 
      // Reset the reception buffer
@@ -56,8 +55,10 @@ function UARTprocess(data) {
  * Send a message to the LoRa
  */
 function loraSendMsg(message, port, ackType) {
+  digitalWrite(LED1,1);
   console.log("mac tx " + ackType + " " + port + " " + message);
   Serial2.print("mac tx " + ackType + " " + port + " " + message + "\r\n");
+  digitalWrite(LED1,0);
 }
 
 /*
@@ -66,19 +67,6 @@ function loraSendMsg(message, port, ackType) {
 function UARTInit() {
   Serial2.setup(57600, { tx:A2, rx:A3});
   Serial2.on('data', function(data){UARTprocess(data);});
-}
-
-function initI2C() {
-  i2c = new I2C();
-  i2c.setup({sda:B9,scl:B8});  // Pin changé par rapport au schémas
-  bme = require("BME680").connectI2C(i2c, {addr:0x77});
-
-}
-
-function printBME() {
-  var data = bme.get_sensor_data();
-  console.log(JSON.stringify(data,null,2));
-  bme.perform_measurement();
 }
 
 /*
@@ -105,5 +93,3 @@ function onInit() {
 }
 
 save();
-
-Serial2.println("mac get retx");
