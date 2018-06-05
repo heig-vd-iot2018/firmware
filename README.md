@@ -49,6 +49,27 @@ Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environm
 
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
+### Envoie des données
+
+#### Header
+| 15          | 14       | 13       | 12             | 11-2     | 1               | 0               |
+|-------------|----------|----------|----------------|----------|-----------------|-----------------|
+| temperature | pressure | humidity | gas resistance | not used | die temperature | battery voltage |
+
+16 bits pour indiquer ou non la présence de la donnée.
+#### Données
+
+| Taille  | Donnée          | Conversion |
+|---------|-----------------|------------|
+| 16 bits | temperature     | °C * 10    |
+| 16 bits | pressure        | hPa * 10   |
+| 16 bits | humidity        | % * 100    |
+| 16 bits | gas resistance  | Ohms / 10  |
+| 16 bits | die temperature | °C * 10    |
+| 16 bits | battery voltage | V * 10     |
+
+Le tout est converti en une string d'hexadécimal.
+(David viens m'aider stp c'est toi qui a fait)
 
 ### Comunication du changement de fréquence d'échantillonnage
 Pour changer la fréquences d'échantillonnage d'un noeuds, il faut lui envoyer un payload en JSON, converti en Hexadécimal.
