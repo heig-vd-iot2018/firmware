@@ -27,6 +27,8 @@ https://www.mikroe.com/arduino-uno-click-shield
 
 Arduino Uno est une extension pour Arduino Uno. Il contient deux micro bus permettant de connecter à arduino plus de 75 click board différentes. Il permet d'ajouter des fonctionnalités comme GSM, Wifi, Zigbee, Bluethooth... 
 
+![lol](img/uno_click_shield.png)
+
 Carte :
 
 http://www.st.com/en/evaluation-tools/nucleo-f401re.html
