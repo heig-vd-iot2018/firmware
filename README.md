@@ -4,7 +4,7 @@ Dans le cadre du cours IOT à la HEIG-VD, Suisse.
 ## Introduction
 [Introduction à ce repository]
 
- Ce repository ce veut être un rapport descriptif de la partie firmware du projet de semestre réalisé dans le cadre du cours du cours IOT(Internet des Objets) 2018.  
+ Ce repository ce veut être un rapport descriptif de la partie firmware du projet de semestre réalisé dans le cadre du cours du cours IOT(Internet des Objets) 2018.
 
 ## Technologies utilisées
 [Technologies utilisées]
@@ -50,7 +50,7 @@ La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette c
 
 Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environment click) via la connectivitée Arduino Uno (Arduino Uno click SHIELD)  pour transférer les données du capteur vers l'application web.
 
-Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources). 
+Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources).
 
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
@@ -62,6 +62,9 @@ Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour
 | temperature | pressure | humidity | gas resistance | Light            | not used | die temperature | battery voltage |
 
 16 bits pour indiquer ou non la présence de la donnée.
+Pour les capteurs actuels, les headers sont les suivants:
+* Environment (BME680): `F003` (temperature, pression, humidité, gas res., temperature carte, batterie)
+* Ambient (OPT3001):    `0803` (lumière, temperature carte, batterie)
 #### Données
 
 | Taille  | Donnée          | Conversion |

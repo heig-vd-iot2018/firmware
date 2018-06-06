@@ -3,7 +3,7 @@ var bme;
 
 //AppEUI and Appkey to set manually
 var appEUI = "70B3D57ED000F1B0";
-var appKey = "F45661A2F761B1473AC492F1FB31F947";
+var appKey = "5AD84A000CB760B7DD52CC1A7D3300E3";
 
 var lora = null;
 var i2c = null;
@@ -63,11 +63,17 @@ function UARTprocess(data) {
     }
 }
 
+function perform_measurement(callback) {
+	bme.perform_measurement();
+	callback();
+}
+
 /*
  * Send datas
  */
 function sendDatas() {
-	var data = bme.get_sensor_data();
+
+	perform_measurement(function() {var data = bme.get_sensor_data();
 	console.log(JSON.stringify(data,null,2));
 
 	var payload = createPayload(data);
@@ -75,9 +81,7 @@ function sendDatas() {
 	var msg = header;
 	msg += convertPayloadToHexString(payload);
 
-	loraSendMsg(msg, 1, "uncnf");
-
-	bme.perform_measurement();
+	loraSendMsg(msg, 1, "uncnf");})
 }
 
 /*
@@ -86,7 +90,7 @@ function sendDatas() {
 function convertPayloadToHexString(payload) {
 	var msg = "";
 	var tmp = "";
-	
+
 	var i;
     for (i = 0; i < payload.length; i++) {
 	    msg += ('0000' + payload[i].toString(16).toUpperCase()).slice(-4);
