@@ -2,18 +2,20 @@ var RN2483 = require("RN2483");
 var bme;
 
 // //AppEUI and Appkey to set manually
-// var appEUI = "70B3D57ED000F1B0";
-// var appKey = "F45661A2F761B1473AC492F1FB31F947";
+ var appEUI = "70B3D57ED000F1B0";
+ var appKey = "5AD84A000CB760B7DD52CC1A7D3300E3";
 
 //AppEUI and Appkey to for infra test
-var appEUI = "0573781892691964";
-var appKey = "9534791881c1d649dc3382ed20898584";
+//var appEUI = "0573781892691964";
+//var appKey = "9534791881c1d649dc3382ed20898584";
 
 var lora = null;
 var i2c = null;
 
 var msgRX = "";
 var batteryLevel = 3.3;
+
+var ledValue = false;
 
 var defaultInterval = 10000; //to set new interval send : {"newInterval":5000}
 //7B 22 6E 65 77 49 6E 74 65 72 76 61 6C 22 3A 35 30 30 30 7D in hexa
@@ -47,6 +49,8 @@ function UARTprocess(data) {
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
 			setInterval(sendDatas, defaultInterval);
+			ledValue = true;
+		    digitalWrite(LED1, ledValue);
 		}
 		else if(msgRX.indexOf("mac_rx") != -1){
 			console.log("New interval asked !");
@@ -77,15 +81,19 @@ function perform_measurement(callback) {
  */
 function sendDatas() {
 
-	perform_measurement(function() {var data = bme.get_sensor_data();
-	console.log(JSON.stringify(data,null,2));
+	perform_measurement(function() {
+		var data = bme.get_sensor_data();
+		console.log(JSON.stringify(data,null,2));
 
-	var payload = createPayload(data);
+		var payload = createPayload(data);
 
-	var msg = header;
-	msg += convertPayloadToHexString(payload);
+		var msg = header;
+		msg += convertPayloadToHexString(payload);
 
-	loraSendMsg(msg, 1, "uncnf");})
+		loraSendMsg(msg, 1, "uncnf");
+		ledValue = !ledValue;
+	    digitalWrite(LED1, ledValue);
+	});
 }
 
 /*
@@ -175,9 +183,7 @@ function createPayload(datas) {
 	return payload;
 }
 
-
-function onInit() {
-
+function initAll() {
 	console.log("Node Starting...");
 
 
@@ -196,6 +202,11 @@ function onInit() {
 
   	console.log("Starting LoRa init...");
   	loraInit();
+}
+
+function onInit() {
+	setTimeout(initAll, 2000);
+
 }
 
 save();
