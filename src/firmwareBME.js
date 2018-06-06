@@ -42,13 +42,8 @@ function UARTprocess(data) {
 	// Once the message contains the \r\n chars it means the response is done.
 	// We can now compare the response to handle it correctly.
 	if (msgRX.indexOf("\r\n") != -1) {
-<<<<<<< HEAD:src/firmwareFinal.js
 		//console.log(msgRX);
 		// If we get the response "accepted" after a join, we can set the
-=======
-		console.log(msgRX);
-		// If we get the response "accepted" after a join, we can set the
->>>>>>> ae24fa291f37d4b46f9bc7088ca15eac112ebc66:src/firmwareBME.js
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
 			setInterval(sendDatas, defaultInterval);
