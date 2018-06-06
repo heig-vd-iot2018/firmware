@@ -52,7 +52,7 @@ Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environm
 
 
 
-ide: 
+ide:
 
 http://www.espruino.com/
 
@@ -71,10 +71,6 @@ L'IDE web Espruino est un éditeur graphique open source conçu pour écrire et 
 | [Web Version](#full-web-version)                    | [Audio](http://www.espruino.com/Headphone), Bluetooth Low Energy (via [Web Bluetooth](https://webbluetoothcg.github.io/web-bluetooth/)) | Just go to [a URL](https://espruino.github.io/EspruinoWebIDE/) |
 
 
-<<<<<<< HEAD
-Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources).
-=======
->>>>>>> a9334b0c9eab341071cb619aa3280ca40f21f932
 
 ## Spécificités
 
@@ -102,9 +98,11 @@ Pour les capteurs actuels, les headers sont les suivants:
 | 16 bits | die temperature | °C * 10    |
 | 16 bits | battery voltage | V * 10     |
 
-Le module LoRa demande d'envoyer une chaîne de caractères hexadecimale. Les valeurs doivent donc être convertie en temps que tel. Pour faciliter la lecture, chaque valeur est envoyée sur 4 digits (16bits => 4 digits hex).
+Le module LoRa demande d'envoyer une chaîne de caractères hexadecimale. Les valeurs doivent donc être convertie en temps que tel. Pour faciliter la lecture, chaque valeur est envoyée sur 4 digits (16bits => 4 digits hex).  
 Exemple de payload envoyé:
-`F003003004500000001000240021`
+* `F003003004500000001000240021`
+
+
 On y voit le header `F003` (qui signifie que toute les valeurs sauf la lumière sont dans le payload, comme pour le capteur *BME*), suivit des champs qui y sont indiqués dans l'ordre (les valeurs ici sont non representatives des valeurs réelles).
 
 
