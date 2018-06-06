@@ -9,6 +9,11 @@ var i2c = null;
 
 var msgRX = "";
 
+var batteryLevel = 3.3;
+
+// Bitfield to know which datas will be contained in the payload.
+// For now it is hardcoded but it should be modular.
+var header = "F003";
 
 
 function UARTprocess(data) {
@@ -20,11 +25,45 @@ function UARTprocess(data) {
       // If we get the response "accepted" after a join, we can set the 
       // interval to send the datas periodically.
       if (msgRX.indexOf("accepted") != -1) {
-        setInterval(function(){loraSendMsg("68656c6c6f", 1, "cnf");}, 5000);
+        setInterval(sendDatas, 5000);
       }
      // Reset the reception buffer
       msgRX = ""; 
    }
+}
+
+function sendDatas() {
+  var data = bme.get_sensor_data();
+  console.log(JSON.stringify(data,null,2));
+  
+  var payload = createPayload(data);
+  
+  var msg = header;
+  msg += convertPayloadToHexString(payload);
+  
+  loraSendMsg(msg, 1, "uncnf");
+
+  bme.perform_measurement();
+}
+
+function convertPayloadToHexString(payload) {
+  var msg = "";
+  var tmp = "";
+  
+  tmp = ('0000' + payload[0].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  tmp = ('0000' + payload[1].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  tmp = ('0000' + payload[2].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  tmp = ('0000' + payload[3].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  tmp = ('0000' + payload[4].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  tmp = ('0000' + payload[5].toString(16).toUpperCase()).slice(-4);
+  msg += tmp;
+  
+  return msg;
 }
 
 /*
@@ -38,21 +77,28 @@ function loraSendMsg(message, port, ackType) {
 /*
  * Initialization of the UART
  */
-function UARTInit() {
+function initUART() {
   Serial2.setup(57600, { tx:A2, rx:A3});
   Serial2.on('data', function(data){UARTprocess(data);});
 }
 
+/*
+ * Initialization of the I2C and the BME
+ */
 function initI2C() {
   i2c = new I2C();
   i2c.setup({sda:B9,scl:B8});  // Pin changé par rapport au schémas
-  bme = require("BME680").connectI2C(i2c, {addr:0x77});
+}
 
+function initBME() {
+  bme = require("BME680").connectI2C(i2c, {addr:0x77});
 }
 
 function printBME() {
   var data = bme.get_sensor_data();
   console.log(JSON.stringify(data,null,2));
+  
+  createPayload(data);
   bme.perform_measurement();
 }
 
@@ -65,26 +111,32 @@ function loraInit() {
   setTimeout(function() {Serial2.println("mac set appeui " + appEUI);} , 1000);
   setTimeout(function() {Serial2.println("mac set appkey " + appKey);}, 2000);
   setTimeout(function() {Serial2.println("mac join otaa");}, 3000);
-  
-  //lora.getStatus(function(x){console.log(x);});
 }
 
 function onInit() {
-  // Reset
+  // Reset LoRa module
   digitalWrite(B0, true);
   digitalPulse(B0, false, 500);
   digitalWrite(B0, true);
   
-  UARTInit();
+  initUART();
   loraInit();
   
   initI2C();
-  
-   setInterval(printBME, 5000);
+  initBME();
 }
 
-function createPayload() {
-    var datas =
+function createPayload(datas) {
+  var payload = new Int16Array(6);
+  
+  payload[0] = datas.temperature * 10;
+  payload[1] = datas.pressure * 10;
+  payload[2] = datas.humidity * 100;
+  payload[3] = datas.gas_resistance / 10;
+  payload[4] = E.getTemperature() * 10;
+  payload[5] = batteryLevel * 10;
+  
+  return payload;
 }
 
 
