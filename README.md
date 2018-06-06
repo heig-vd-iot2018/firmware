@@ -78,9 +78,9 @@ L'IDE web Espruino est un éditeur graphique open source conçu pour écrire et 
 ### Envoie des données
 
 #### Header
-| 15          | 14       | 13       | 12             | 11-2     | 1               | 0               |
-|-------------|----------|----------|----------------|----------|-----------------|-----------------|
-| temperature | pressure | humidity | gas resistance | not used | die temperature | battery voltage |
+| 15          | 14       | 13       | 12             | 11         |10-2     | 1               | 0               |
+|-------------|----------|----------|----------------|------------|----------|-----------------|-----------------|
+| temperature | pressure | humidity | gas resistance | Light            | not used | die temperature | battery voltage |
 
 16 bits pour indiquer ou non la présence de la donnée.
 #### Données
@@ -91,19 +91,20 @@ L'IDE web Espruino est un éditeur graphique open source conçu pour écrire et 
 | 16 bits | pressure        | hPa * 10   |
 | 16 bits | humidity        | % * 100    |
 | 16 bits | gas resistance  | Ohms / 10  |
+| 16 bits | Light           | Lux        |
 | 16 bits | die temperature | °C * 10    |
 | 16 bits | battery voltage | V * 10     |
 
 Le module LoRa demande d'envoyer une chaîne de caractères hexadecimale. Les valeurs doivent donc être convertie en temps que tel. Pour faciliter la lecture, chaque valeur est envoyée sur 4 digits (16bits => 4 digits hex).
 Exemple de payload envoyé:
-`F003 0030 0450 0000 0010 0024 0021`
-On y voit le header `F003`, suivit des champs qui y sont indiqués dans l'ordre (les valeurs ici sont non representatives des valeurs réelles).
+`F003003004500000001000240021`
+On y voit le header `F003` (qui signifie que toute les valeurs sauf la lumière sont dans le payload, comme pour le capteur *BME*), suivit des champs qui y sont indiqués dans l'ordre (les valeurs ici sont non representatives des valeurs réelles).
 
 
 #### Remarques
 Le niveau de batterie est, pour l'instant une valeur factice car la carte *Nucleo* ne permet pas de la récupérer.
 
-### Comunication du changement de fréquence d'échantillonnage
+### Communication du changement de fréquence d'échantillonnage
 Pour changer la fréquences d'échantillonnage d'un noeuds, il faut lui envoyer un payload en JSON, converti en Hexadécimal.
 
 Le JSON se présente sous le format suivant : `{"newInterval": value}`
