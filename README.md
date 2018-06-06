@@ -3,7 +3,8 @@ Dans le cadre du cours IOT à la HEIG-VD, Suisse.
 
 ## Introduction
 [Introduction à ce repository]
-Par exemple: Ce repository est consacré à la partie...
+
+ Ce repository ce veut être un rapport descriptif de la partie firmware du projet de semestre réalisé dans le cadre du cours du cours IOT(Internet des Objets) 2018.  
 
 ## Technologies utilisées
 [Technologies utilisées]
@@ -12,9 +13,9 @@ Capteur :
 
 https://www.espruino.com/BME680
 
-La BME680 est un capteur d'environnement fabriqué par Bosch. Elle permet de mesurer la température, la pression, l'humidté et la résistance au gaz. Elle s'exécute à partir d'une tension de 3.3V et communique avec la sortie du microcontrolleur via les bus SPI ou I2C.
+La BME680 est un capteur d'environnement fabriqué par Bosch. Elle permet de mesurer la température, la pression, l'humidté et la résistance au gaz. Elle s'exécute à partir d'une tension de 3.3V et communique avec la sortie du microcontrolleur via les bus SPI ou I2C. Dans le cadre de ce projet, nous utilisons le protocole I2C.
 
-![lol](img/environmentclick.png)
+![capteur](img/environmentclick.PNG)
 
 LoRa :
 
@@ -27,15 +28,17 @@ https://www.mikroe.com/arduino-uno-click-shield
 
 Arduino Uno est une extension pour Arduino Uno. Il contient deux micro bus permettant de connecter à arduino plus de 75 click board différentes. Il permet d'ajouter des fonctionnalités comme GSM, Wifi, Zigbee, Bluethooth...
 
+![uno](img/uno_click_shield.PNG)
+
 Carte :
 
 http://www.st.com/en/evaluation-tools/nucleo-f401re.html
 
 La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette carte dispose
 
-- de deux type de ressources d'extension :
+- de deux types de ressources d'extension :
   -  une connectivité Arduino Uno révision 3
-  - un
+  -  un ST morpho pour les pins d'entête permettant un access à toutes les I/O de la STM32.
 - Alimentation électrique de carte flexible
 - Trois LED
 - Deux boutons-poussoirs : UTILISATEUR et REMISE À ZÉRO
@@ -46,6 +49,8 @@ La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette c
 - Et toute une série de périphériques et de composants.
 
 Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environment click) via la connectivitée Arduino Uno (Arduino Uno click SHIELD)  pour transférer les données du capteur vers l'application web.
+
+Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources). 
 
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
