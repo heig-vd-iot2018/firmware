@@ -49,6 +49,17 @@ Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environm
 
 ## Spécificités
 [Spécificités à savoir pour la partie du projet]
+
+### Noeuds
+| Device N° | EUI              | Click Type  |
+|-----------|------------------|-------------|
+| 1         | 0004A30B001ADE26 | Environment |
+| 2         | 0004A30B001A798B | Environment |
+| 3         | 0004A30B001AD01A | Environment |
+| 4         | 0004A30B001A602D | Environment |
+| 5         | 0004A30B001A1E25 | Ambiant     |
+| 6         | 0004A30B001A5BE8 | Ambiant     |
+
 ### Envoie des données
 
 #### Header

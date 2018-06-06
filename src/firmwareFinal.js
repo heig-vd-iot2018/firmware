@@ -1,9 +1,13 @@
 var RN2483 = require("RN2483");
 var bme;
 
-//AppEUI and Appkey to set manually
-var appEUI = "70B3D57ED000F1B0";
-var appKey = "F45661A2F761B1473AC492F1FB31F947";
+// //AppEUI and Appkey to set manually
+// var appEUI = "70B3D57ED000F1B0";
+// var appKey = "F45661A2F761B1473AC492F1FB31F947";
+
+//AppEUI and Appkey to for infra test
+var appEUI = "0573781892691964";
+var appKey = "9534791881c1d649dc3382ed20898584";
 
 var lora = null;
 var i2c = null;
@@ -38,7 +42,7 @@ function UARTprocess(data) {
 	// Once the message contains the \r\n chars it means the response is done.
 	// We can now compare the response to handle it correctly.
 	if (msgRX.indexOf("\r\n") != -1) {
-		console.log(msgRX);
+		//console.log(msgRX);
 		// If we get the response "accepted" after a join, we can set the 
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
@@ -153,7 +157,6 @@ function printBME() {
  */
 function loraInit() {
  	lora = new RN2483(Serial2, {reset:B0});
-
 	// Setup the LoRa module
  	setTimeout('Serial2.println("mac set appeui " + appEUI);', 1000);
  	setTimeout('Serial2.println("mac set appkey " + appKey);', 2000);

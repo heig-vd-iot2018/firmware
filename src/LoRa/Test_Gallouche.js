@@ -74,12 +74,15 @@ function UARTInit() {
  */
 function loraInit() {
   lora = new RN2483(Serial2, {reset:B0});
+
+  lora.getStatus(function(x){console.log("Device EUI = " + x.EUI);});
+
   // Setup the LoRa module
   setTimeout(function() {Serial2.println("mac set appeui " + appEUI);} , 1000);
   setTimeout(function() {Serial2.println("mac set appkey " + appKey);}, 2000);
   setTimeout(function() {Serial2.println("mac join otaa");}, 3000);
   
-  //lora.getStatus(function(x){console.log(x);});
+  
 }
 
 function onInit() {
