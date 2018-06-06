@@ -48,11 +48,32 @@ La carte STM32 est une carte développée par Nucleo STMicroelectronics. Cette c
   - Port de débogage
 - Et toute une série de périphériques et de composants.
 
-Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environment click) via la connectivitée Arduino Uno (Arduino Uno click SHIELD)  pour transférer les données du capteur vers l'application web.
+Le but est de connecter le module Lora(LoRa click) et le capteur BME680(Environment click) via la connectivitée Arduino Uno (Arduino Uno click SHIELD)  pour transférer les données du capteur vers l'application web.Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources).
 
-Pour ce faire, nous avons utilisé l'IDE Espruino  et le langage javaScript pour la configuration de la partie UART et la partie I2C(cf sources). 
+
+
+ide: 
+
+http://www.espruino.com/
+
+L'IDE web Espruino est un éditeur graphique open source conçu pour écrire et débugger du code sur des microcontrôleurs utilisant l'interpréteur JavaScript Espruino. Il peut également fonctionner en natif via Node.js et Electron, ou une version avec E / S limitée peut être utilisée comme site web.
+
+![espruino](img/espruino.PNG)
+
+ ![espruino](img/espruino2.PNG)
+
+
+
+| Version                                             | Communications                                               | Benefits                                                     |
+| --------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Chrome Web App](#installing-from-chrome-web-store) | USB, Serial, [Audio](http://www.espruino.com/Headphone), TCP/IP | Easy to install from [Chrome Web Store](https://chrome.google.com/webstore/detail/espruino-serial-terminal/bleoifhkdalbjfbobjackfdifdneehpo) |
+| [Node.js App](#installing-from-npm) / NW.js app     | USB, Serial, Bluetooth Low Energy                            | Can be run of systems without Chrome web browser             |
+| [Web Version](#full-web-version)                    | [Audio](http://www.espruino.com/Headphone), Bluetooth Low Energy (via [Web Bluetooth](https://webbluetoothcg.github.io/web-bluetooth/)) | Just go to [a URL](https://espruino.github.io/EspruinoWebIDE/) |
+
+
 
 ## Spécificités
+
 [Spécificités à savoir pour la partie du projet]
 ### Envoie des données
 
