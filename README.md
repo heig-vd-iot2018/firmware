@@ -15,7 +15,7 @@ https://www.espruino.com/BME680
 
 La BME680 est un capteur d'environnement fabriqué par Bosch. Elle permet de mesurer la température, la pression, l'humidté et la résistance au gaz. Elle s'exécute à partir d'une tension de 3.3V et communique avec la sortie du microcontrolleur via les bus SPI ou I2C. Dans le cadre de ce projet, nous utilisons le protocole I2C.
 
-![lol](img/environmentclick.png)
+![capteur](img/environmentclick.PNG)
 
 LoRa :
 
@@ -28,7 +28,7 @@ https://www.mikroe.com/arduino-uno-click-shield
 
 Arduino Uno est une extension pour Arduino Uno. Il contient deux micro bus permettant de connecter à arduino plus de 75 click board différentes. Il permet d'ajouter des fonctionnalités comme GSM, Wifi, Zigbee, Bluethooth...
 
-![uno](img/uno_click_shield.png)
+![uno](img/uno_click_shield.PNG)
 
 Carte :
 
