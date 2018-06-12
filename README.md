@@ -130,8 +130,11 @@ La `value` est en millisecondes.
 La fréquence d'échantillonnage de base reste à définir.
 
 ## Déploiement
+Avant de faire quoi que ce soit, il faut s'assurer que le FW qui sera loader contient bien les bonnes informations concernant les appKey et appEUI.
+
 Le déploiement des capteurs se fait de manière simple:
-* Changer la position du jumper central droite (pins gauches connectées) pour router l'alimentation sur les batterie et non plus sur USB.
+
+* Changer la position du jumper central droite (pins gauches connectées) pour router l'alimentationsur les batterie et non plus sur USB.
 * Insérer les piles.
 * Load le programme de façon classique grâce à l'IDE.
 * Débranché le cable USB.
