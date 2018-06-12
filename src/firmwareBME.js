@@ -2,12 +2,12 @@ var RN2483 = require("RN2483");
 var bme;
 
 // //AppEUI and Appkey to set manually
- var appEUI = "70B3D57ED000F1B0";
- var appKey = "5AD84A000CB760B7DD52CC1A7D3300E3";
+// var appEUI = "70B3D57ED000F1B0";
+// var appKey = "F45661A2F761B1473AC492F1FB31F947";
 
 //AppEUI and Appkey to for infra test
-//var appEUI = "0573781892691964";
-//var appKey = "9534791881c1d649dc3382ed20898584";
+var appEUI = "0573781892691964";
+var appKey = "7ff4b5f6576ac9bd313a0367e968c0fa";
 
 var lora = null;
 var i2c = null;
@@ -17,7 +17,7 @@ var batteryLevel = 3.3;
 
 var ledValue = false;
 
-var defaultInterval = 10000; //to set new interval send : {"newInterval":5000}
+var defaultInterval = 60000; //to set new interval send : {"newInterval":5000}
 //7B 22 6E 65 77 49 6E 74 65 72 76 61 6C 22 3A 35 30 30 30 7D in hexa
 
 // Bitfield to know which datas will be contained in the payload.
@@ -44,7 +44,7 @@ function UARTprocess(data) {
 	// Once the message contains the \r\n chars it means the response is done.
 	// We can now compare the response to handle it correctly.
 	if (msgRX.indexOf("\r\n") != -1) {
-		//console.log(msgRX);
+		console.log(msgRX);
 		// If we get the response "accepted" after a join, we can set the
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
@@ -165,6 +165,7 @@ function loraInit() {
  	setTimeout('Serial2.println("mac set appeui " + appEUI);', 1000);
  	setTimeout('Serial2.println("mac set appkey " + appKey);', 2000);
 	setTimeout('Serial2.println("mac join otaa");', 3000);
+  console.log("Starting LoRa init...");
 }
 
 /*
@@ -190,22 +191,24 @@ function initAll() {
   	initI2C();
   	initBME();
 
-	// Reset LoRa module
+  	console.log("Starting UART init...");
+  	initUART();
+  
+    // Reset LoRa module
   	digitalWrite(B0, true);
   	digitalPulse(B0, false, 500);
   	digitalWrite(B0, true);
   	console.log("LoRa restarted");
-
-  	console.log("Starting UART init...");
-  	initUART();
   	console.log("UART initialized");
+  
+    setTimeout(loraInit, 2000);
 
-  	console.log("Starting LoRa init...");
-  	loraInit();
+  	
+  	//loraInit();
 }
 
 function onInit() {
-	setTimeout(initAll, 2000);
+	setTimeout(initAll, 3000);
 
 }
 
