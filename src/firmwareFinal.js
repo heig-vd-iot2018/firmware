@@ -43,10 +43,10 @@ function UARTprocess(data) {
 	// We can now compare the response to handle it correctly.
 	if (msgRX.indexOf("\r\n") != -1) {
 		console.log(msgRX);
-		// If we get the response "accepted" after a join, we can set the
+		// If we get the response "accepted" after a join, we can set the 
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
-			setInterval(sendDatas, defaultInterval);
+			setInterval(sendDatas, defaultInterval);      
 		}
 		else if(msgRX.indexOf("mac_rx") != -1){
 			console.log("New interval asked !");
@@ -67,17 +67,11 @@ function UARTprocess(data) {
     }
 }
 
-function perform_measurement(callback) {
-	bme.perform_measurement();
-	callback();
-}
-
 /*
  * Send datas
  */
 function sendDatas() {
-
-	perform_measurement(function() {var data = bme.get_sensor_data();
+	var data = bme.get_sensor_data();
 	console.log(JSON.stringify(data,null,2));
 
 	var payload = createPayload(data);
@@ -85,7 +79,9 @@ function sendDatas() {
 	var msg = header;
 	msg += convertPayloadToHexString(payload);
 
-	loraSendMsg(msg, 1, "uncnf");});
+	loraSendMsg(msg, 1, "uncnf");
+
+	bme.perform_measurement();
 }
 
 /*
@@ -95,10 +91,18 @@ function convertPayloadToHexString(payload) {
 	var msg = "";
 	var tmp = "";
 
-	var i;
-    for (i = 0; i < payload.length; i++) {
-	    msg += ('0000' + payload[i].toString(16).toUpperCase()).slice(-4);
-    }
+	tmp = ('0000' + payload[0].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[1].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[2].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[3].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[4].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[5].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
 
 	return msg;
 }
@@ -180,7 +184,7 @@ function onInit() {
 
 	console.log("Node Starting...");
 
-
+  	
   	initI2C();
   	initBME();
 

@@ -10,5 +10,5 @@ digitalWrite(B0, true);
 console.log("LoRa restarted");
 
 lora.getStatus(function(x){console.log("Device EUI = " + x.EUI);});
+lora.getStatus(function(x){console.log(x);});
 
-  	
