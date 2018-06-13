@@ -143,9 +143,9 @@ function loraInit() {
 
 	// Setup the LoRa module
  	setTimeout('Serial2.println("mac set appeui " + appEUI);', 1000);
- 	setTimeout('Serial2.println("mac set appkey " + appKey);', 2000);
-	setTimeout('Serial2.println("mac join otaa");', 3000);
-}
+ 	setTimeout('Serial2.println("mac set appeui " + appEUI);', 2000);
+ 	setTimeout('Serial2.println("mac set appkey "  appKey);', 3000);
+	setTimeout('Serial2.println("mac join otaa");', 4000);
 
 /*
  *	Payload creation from sensor data very specific and we could do a header parsing

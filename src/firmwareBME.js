@@ -7,7 +7,7 @@ var bme;
 
 //AppEUI and Appkey to for infra test
 var appEUI = "0573781892691964";
-var appKey = "7ff4b5f6576ac9bd313a0367e968c0fa";
+var appKey = "5a9097b126ccdf8453d3323c177d7672";
 
 var lora = null;
 var i2c = null;
@@ -17,7 +17,7 @@ var batteryLevel = 3.3;
 
 var ledValue = false;
 
-var defaultInterval = 60000; //to set new interval send : {"newInterval":5000}
+var defaultInterval = 30000; //to set new interval send : {"newInterval":5000}
 //7B 22 6E 65 77 49 6E 74 65 72 76 61 6C 22 3A 35 30 30 30 7D in hexa
 
 // Bitfield to know which datas will be contained in the payload.
@@ -163,8 +163,9 @@ function loraInit() {
  	lora = new RN2483(Serial2, {reset:B0});
 	// Setup the LoRa module
  	setTimeout('Serial2.println("mac set appeui " + appEUI);', 1000);
- 	setTimeout('Serial2.println("mac set appkey " + appKey);', 2000);
-	setTimeout('Serial2.println("mac join otaa");', 3000);
+    setTimeout('Serial2.println("mac set appeui " + appEUI);', 2000);
+ 	setTimeout('Serial2.println("mac set appkey " + appKey);', 3000);
+	setTimeout('Serial2.println("mac join otaa");', 4000);
   console.log("Starting LoRa init...");
 }
 
@@ -193,13 +194,13 @@ function initAll() {
 
   	console.log("Starting UART init...");
   	initUART();
+  	console.log("UART initialized");
   
     // Reset LoRa module
   	digitalWrite(B0, true);
   	digitalPulse(B0, false, 500);
   	digitalWrite(B0, true);
   	console.log("LoRa restarted");
-  	console.log("UART initialized");
   
     setTimeout(loraInit, 2000);
 
