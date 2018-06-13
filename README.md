@@ -130,10 +130,28 @@ La `value` est en millisecondes.
 La fréquence d'échantillonnage de base reste à définir.
 
 ## Déploiement
-[Instruction de déploiement/utilisation]
+Avant de faire quoi que ce soit, il faut s'assurer que le FW qui sera loader contient bien les bonnes informations concernant les appKey et appEUI.
+
+Le déploiement des capteurs se fait de manière simple:
+
+* Changer la position du jumper central droite (pins gauches connectées) pour router l'alimentationsur les batterie et non plus sur USB.
+* Insérer les piles.
+* Load le programme de façon classique grâce à l'IDE.
+* Débranché le cable USB.
+
+### Remarques
+Le fait de lancer le FW à l'allumage ne fonctionne pas. Une erreur invalid_param est reçue lors de l'envoi de l'appkey. Nous pensions que c'était du à un problème de capacités mal chargées donc nous avons mis un timeout de 2s avant de lancer l'initialisation des modules et des bus.  
+Malheureusement, cela n'a pas suffi. Pour palier à ce problème, la marche à suivre en ci-dessus propose d'insérer les piles avant de load le FW. Cela fonctionne.
+
+## Tests effectués
+Nous avons tester la connexion au LoRa server avec la gateway TTN. Cela fonctionne sans aucun problème et les données transitent des deux sens.  
+Avec la gateway Raspberry PI, nous rencontrons des problèmes liés à un timeout lors de l'attente de la réponse du join (denied reçu). Nous pensons que cela vient de la gateway qui doit mal gérer la requête.  
 
 ## Conclusion
-[Points à améliorer, points en suspens, améliorations futures, ...]
+Dans l'ensemble, les points qui ont été demandés au groupe FW ont été atteint. Comme dit précédemment, des soucis surviennent lorsque le FW est loader depuis la mémoire directement après allumage et la communication avec la gateway bloque au join. Pour le premier problème, nous avons tenter de le résoudre mais cela n'a pas fonctionné et nous ne comprenons vraiment pas pourquoi.  
+Pour le 2ème, des problèmes du côté de la gateway en sont probablement la cause, vu qu'en utilisant celle de TTN, nous ne rencontrons aucun problème.  
+
+En conclusion, ce projet était une bonne approche à l'IoT et nous sommes heureux d'avoir pu travailler sur le FW particulièrement. Le fait d'avoir utilisé le Framework Espruino était une bonne découverte au vu de sa simplicité (debug et API offerte).
 
 ## Note dev
 

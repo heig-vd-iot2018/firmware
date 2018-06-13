@@ -160,11 +160,8 @@ function createPayload(datas) {
 	return payload;
 }
 
-
-function onInit() {
-
+function initAll() {
 	console.log("Node Starting...");
-
 
   	initI2C();
   	initOPT();
@@ -182,5 +179,11 @@ function onInit() {
   	console.log("Starting LoRa init...");
   	loraInit();
 }
+
+function onInit() {
+	setTimeout(initAll, 2000);
+
+}
+
 
 save();
