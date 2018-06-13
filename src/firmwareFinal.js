@@ -7,7 +7,7 @@ var bme;
 
 //AppEUI and Appkey to for infra test
 var appEUI = "0573781892691964";
-var appKey = "5a9097b126ccdf8453d3323c177d7672";
+var appKey = "9534791881c1d649dc3382ed20898584";
 
 var lora = null;
 var i2c = null;
@@ -15,9 +15,7 @@ var i2c = null;
 var msgRX = "";
 var batteryLevel = 3.3;
 
-var ledValue = false;
-
-var defaultInterval = 30000; //to set new interval send : {"newInterval":5000}
+var defaultInterval = 10000; //to set new interval send : {"newInterval":5000}
 //7B 22 6E 65 77 49 6E 74 65 72 76 61 6C 22 3A 35 30 30 30 7D in hexa
 
 // Bitfield to know which datas will be contained in the payload.
@@ -45,12 +43,10 @@ function UARTprocess(data) {
 	// We can now compare the response to handle it correctly.
 	if (msgRX.indexOf("\r\n") != -1) {
 		console.log(msgRX);
-		// If we get the response "accepted" after a join, we can set the
+		// If we get the response "accepted" after a join, we can set the 
 		// interval to send the datas periodically.
 		if (msgRX.indexOf("accepted") != -1) {
-			setInterval(sendDatas, defaultInterval);
-			ledValue = true;
-		    digitalWrite(LED1, ledValue);
+			setInterval(sendDatas, defaultInterval);      
 		}
 		else if(msgRX.indexOf("mac_rx") != -1){
 			console.log("New interval asked !");
@@ -71,29 +67,21 @@ function UARTprocess(data) {
     }
 }
 
-function perform_measurement(callback) {
-	bme.perform_measurement();
-	callback();
-}
-
 /*
  * Send datas
  */
 function sendDatas() {
+	var data = bme.get_sensor_data();
+	console.log(JSON.stringify(data,null,2));
 
-	perform_measurement(function() {
-		var data = bme.get_sensor_data();
-		console.log(JSON.stringify(data,null,2));
+	var payload = createPayload(data);
 
-		var payload = createPayload(data);
+	var msg = header;
+	msg += convertPayloadToHexString(payload);
 
-		var msg = header;
-		msg += convertPayloadToHexString(payload);
+	loraSendMsg(msg, 1, "uncnf");
 
-		loraSendMsg(msg, 1, "uncnf");
-		ledValue = !ledValue;
-	    digitalWrite(LED1, ledValue);
-	});
+	bme.perform_measurement();
 }
 
 /*
@@ -103,10 +91,18 @@ function convertPayloadToHexString(payload) {
 	var msg = "";
 	var tmp = "";
 
-	var i;
-    for (i = 0; i < payload.length; i++) {
-	    msg += ('0000' + payload[i].toString(16).toUpperCase()).slice(-4);
-    }
+	tmp = ('0000' + payload[0].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[1].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[2].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[3].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[4].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
+	tmp = ('0000' + payload[5].toString(16).toUpperCase()).slice(-4);
+	msg += tmp;
 
 	return msg;
 }
@@ -163,10 +159,8 @@ function loraInit() {
  	lora = new RN2483(Serial2, {reset:B0});
 	// Setup the LoRa module
  	setTimeout('Serial2.println("mac set appeui " + appEUI);', 1000);
-    setTimeout('Serial2.println("mac set appeui " + appEUI);', 2000);
- 	setTimeout('Serial2.println("mac set appkey " + appKey);', 3000);
-	setTimeout('Serial2.println("mac join otaa");', 4000);
-  console.log("Starting LoRa init...");
+ 	setTimeout('Serial2.println("mac set appkey " + appKey);', 2000);
+	setTimeout('Serial2.println("mac join otaa");', 3000);
 }
 
 /*
@@ -185,29 +179,27 @@ function createPayload(datas) {
 	return payload;
 }
 
-function initAll() {
+
+function onInit() {
+
 	console.log("Node Starting...");
 
-
+  	
   	initI2C();
   	initBME();
 
-  	console.log("Starting UART init...");
-  	initUART();
-  	console.log("UART initialized");
-    // Reset LoRa module
+	// Reset LoRa module
   	digitalWrite(B0, true);
   	digitalPulse(B0, false, 500);
   	digitalWrite(B0, true);
   	console.log("LoRa restarted");
-    setTimeout(loraInit, 2000);
 
+  	console.log("Starting UART init...");
+  	initUART();
+  	console.log("UART initialized");
 
-}
-
-function onInit() {
-	setTimeout(initAll, 3000);
-
+  	console.log("Starting LoRa init...");
+  	loraInit();
 }
 
 save();
